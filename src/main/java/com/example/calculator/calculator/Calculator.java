@@ -1,9 +1,6 @@
 package com.example.calculator.calculator;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +11,13 @@ import javax.persistence.Id;
 
 //entity
 
-@Data
 @Getter
-@ToString // 객체 값 확인
 @Entity(name = "history_tb")
 @Builder
+@NoArgsConstructor
+// 파라미터가 없는 기본 생성자
+@AllArgsConstructor
+// 모든 필드 값을 파라미터로 받는 생성자
 public class Calculator {
 
     @Id //PK에 해당하는 컬럼 위에 Id어노테이션 표시
@@ -32,17 +31,5 @@ public class Calculator {
     private String calculation; // 부호
     private Long result; // 결과
 
-
-    // JPA에서 entity는 기본 생성자를 가지고 있어야 합니다.
-    public Calculator() {}
-
-    @Builder // sql 사용 시 파라미터에 값을 쉽게 넣어주기 위한 어노테이션
-    public Calculator(Long id, Long first_num, Long second_num, String calculation, Long result) {
-        this.id = id;
-        this.first_num = first_num;
-        this.second_num = second_num;
-        this.calculation = calculation;
-        this.result = result;
-    }
 
 }
