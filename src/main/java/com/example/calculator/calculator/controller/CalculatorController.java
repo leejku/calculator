@@ -1,10 +1,12 @@
-package com.example.calculator.calculator;
+package com.example.calculator.calculator.controller;
 
+import com.example.calculator.calculator.entity.Calculator;
+import com.example.calculator.calculator.CalculatorRepository;
+import com.example.calculator.calculator.CalculatorService;
+import com.example.calculator.calculator.dto.CalculatorRequestDto;
+import com.example.calculator.calculator.dto.CalculatorResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/main")
@@ -21,38 +23,31 @@ public class CalculatorController {
     //요청 데이터를 dto에 담는다.
     public Calculator put(@RequestBody CalculatorRequestDto calculatorRequestDto) {
 
-        //dto에 담겨진 데이터들을 꺼내서 각 변수에 넣는다.
-        Long first_num = calculatorRequestDto.getFirst_num();
-        Long second_num = calculatorRequestDto.getSecond_num();
-        String calculation = calculatorRequestDto.getCalculation();
 
         //CalculatorResponseDto를 new키워드로 새로 객체화 한다. 응답값인 결과값을 담는다.
         CalculatorResponseDto calculatorResponseDto = new CalculatorResponseDto();
 
         //계산
         //리팩토링 포인트 : 서비스 로직을 controller에서 분리시켜야함
-        Long result = calculatorService.calculateOperation(first_num, second_num, calculation);
+        Long result = calculatorService.calculateOperation(calculatorRequestDto.getFirst_num(), calculatorRequestDto.getSecond_num(), calculatorRequestDto.getCalculation());
+
 
         //result 결과값을 응답 DTO에 담는다.
         calculatorResponseDto.setResult(result);
 
-
         Calculator builderCalculator = Calculator.builder()
-                .first_num(first_num)
-                .calculation(calculation)
-                .second_num(second_num)
-                .result(result)
+                .first_num(calculatorRequestDto.getFirst_num())
+                .calculation(calculatorRequestDto.getCalculation())
+                .second_num(calculatorRequestDto.getSecond_num())
+                .result(calculatorResponseDto.getResult())
                 .build();
-
 
         //save로 저장한다.
         return calculatorRepository.save(builderCalculator);
     }
 
-
     @GetMapping("/calculator/all")
-    public String list(){
-
+    public String historyAll(){
         String result = "";
         for (Calculator calculator : calculatorRepository.findAll()) {
             result += "[" + calculator.getId() + "] " + calculator.getFirst_num() + " "
@@ -60,9 +55,6 @@ public class CalculatorController {
                     + "= " + calculator.getResult() + " , ";
         }
 
-        // 리팩토링 포인트? : 리스트로 넣어서 뽑기
-//        List<Calculator> calculator2 = calculatorRepository.findAll();
-//        System.out.println("calculator2 = " + calculator2);
         return result;
     }
 }

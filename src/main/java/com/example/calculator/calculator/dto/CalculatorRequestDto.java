@@ -1,4 +1,4 @@
-package com.example.calculator.calculator;
+package com.example.calculator.calculator.dto;
 
 import lombok.Data;
 
