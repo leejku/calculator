@@ -16,11 +16,6 @@ public class CalculatorController {
     private final CalculatorRepository calculatorRepository;
     private final CalculatorService calculatorService;
 
-//    @Autowired
-//    public CalculatorController(CalculatorRepository calculatorRepository, CalculatorService calculatorService) {
-//        this.calculatorRepository = calculatorRepository;
-//        this.calculatorService = calculatorService;
-//    }
 
     @PostMapping("/calculator")
     //요청 데이터를 dto에 담는다.
@@ -30,7 +25,6 @@ public class CalculatorController {
         Long first_num = calculatorRequestDto.getFirst_num();
         Long second_num = calculatorRequestDto.getSecond_num();
         String calculation = calculatorRequestDto.getCalculation();
-
 
         //CalculatorResponseDto를 new키워드로 새로 객체화 한다. 응답값인 결과값을 담는다.
         CalculatorResponseDto calculatorResponseDto = new CalculatorResponseDto();
