@@ -43,13 +43,6 @@ public class CalculatorController {
         calculatorResponseDto.setResult(result);
 
 
-        //DB 저장을 위해서 entity에 값들을 다 넣는다.
-//        Calculator calculator =new Calculator();
-//        calculator.setFirst_num(first_num);
-//        calculator.setSecond_num(second_num);
-//        calculator.setCalculation(calculation);
-//        calculator.setResult(result);
-
         Calculator builderCalculator = Calculator.builder()
                 .first_num(first_num)
                 .calculation(calculation)
